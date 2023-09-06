@@ -215,11 +215,11 @@ namespace ModAssistant.Pages
                 return;
             }
 
-            foreach (string file in Directory.GetFileSystemEntries(Path.Combine(App.BeatSaberInstallDirectory, directory)))
+            foreach (string file in Directory.EnumerateFiles(Path.Combine(App.BeatSaberInstallDirectory, directory)))
             {
                 string fileExtension = Path.GetExtension(file);
 
-                if (File.Exists(file) && (fileExtension == ".dll" || fileExtension == ".exe" || fileExtension == ".manifest"))
+                if (fileExtension == ".dll" || fileExtension == ".exe" || fileExtension == ".manifest")
                 {
                     Mod mod = GetModFromHash(Utils.CalculateMD5(file));
                     if (mod != null)
