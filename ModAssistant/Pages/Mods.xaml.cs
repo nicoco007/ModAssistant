@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,7 +26,7 @@ namespace ModAssistant.Pages
         public static Mods Instance = new Mods();
 
         public List<string> DefaultMods = new List<string> { "SongCore", "WhyIsThereNoLeaderboard", "BeatSaverDownloader", "BeatSaverVoting", "PlaylistManager" };
-        public Mod[] ModsList;
+        public List<Mod> ModsList;
         public Mod[] AllModsList;
         public static List<Mod> InstalledMods = new List<Mod>();
         public static List<Mod> ManifestsToMatch = new List<Mod>();
@@ -93,10 +94,7 @@ namespace ModAssistant.Pages
                 MainWindow.Instance.GameVersionsBox.IsEnabled = false;
                 MainWindow.Instance.InfoButton.IsEnabled = false;
 
-                if (ModsList != null)
-                {
-                    Array.Clear(ModsList, 0, ModsList.Length);
-                }
+                ModList?.Clear();
 
                 if (AllModsList != null)
                 {
@@ -318,12 +316,20 @@ namespace ModAssistant.Pages
 
                 var resp = await HttpClient.GetAsync($"{Utils.Constants.BeatModsAPIUrl}mod?{queryStringParams}");
                 var body = await resp.Content.ReadAsStringAsync();
-                ModsList = JsonSerializer.Deserialize<Mod[]>(body);
+                ModsList = JsonSerializer.Deserialize<List<Mod>>(body);
             }
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show($"{FindResource("Mods:LoadFailed")}.\n\n" + e);
                 return;
+            }
+
+            foreach (Mod mod in ModsList.ToList())
+            {
+                if (!RegisterDependencies(mod))
+                {
+                    ModsList.Remove(mod);
+                }
             }
 
             foreach (Mod mod in ModsList)
@@ -337,8 +343,6 @@ namespace ModAssistant.Pages
                         App.SavedMods.Add(mod.name);
                     }
                 }
-
-                RegisterDependencies(mod);
 
                 ModListItem ListItem = new ModListItem()
                 {
@@ -545,24 +549,29 @@ namespace ModAssistant.Pages
             return await resp.Content.ReadAsStreamAsync();
         }
 
-        private void RegisterDependencies(Mod dependent)
+        private bool RegisterDependencies(Mod dependent)
         {
             if (dependent.dependencies.Length == 0)
-                return;
+                return true;
 
-            foreach (Mod mod in ModsList)
+            foreach (Mod.Dependency dep in dependent.dependencies)
             {
-                foreach (Mod.Dependency dep in dependent.dependencies)
+                Mod mod = ModsList.FirstOrDefault(m => m.name == dep.name);
+
+                if (mod == null)
                 {
-
-                    if (dep.name == mod.name)
-                    {
-                        dep.Mod = mod;
-                        mod.Dependents.Add(dependent);
-
-                    }
+                    return false;
                 }
+
+                dep.Mod = mod;
             }
+
+            foreach (Mod.Dependency dep in dependent.dependencies)
+            {
+                dep.Mod.Dependents.Add(dependent);
+            }
+
+            return true;
         }
 
         private void ResolveDependencies(Mod dependent)
