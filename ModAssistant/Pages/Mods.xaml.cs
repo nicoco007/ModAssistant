@@ -112,7 +112,7 @@ namespace ModAssistant.Pages
                     MainWindow.Instance.MainText = $"{FindResource("Mods:CheckingInstalledMods")}...";
                     await Task.Run(async () => await CheckInstalledMods());
                     InstalledColumn.Width = double.NaN;
-                    UninstallColumn.Width = 70;
+                    UninstallColumn.Width = 80;
                     DescriptionColumn.Width = 750;
                 }
                 else

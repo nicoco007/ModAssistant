@@ -133,7 +133,7 @@
 
                             <GridViewColumn
                                 x:Name="UninstallColumn"
-                                Width="70"
+                                Width="80"
                                 Header="{DynamicResource Mods:Header:Uninstall}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
