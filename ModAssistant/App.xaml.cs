@@ -20,6 +20,7 @@ namespace ModAssistant
         public static bool SelectInstalledMods;
         public static bool ReinstallInstalledMods;
         public static bool CloseWindowOnFinish;
+        public static bool ShowPendingMods;
         public static string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public static List<string> SavedMods = ModAssistant.Properties.Settings.Default.SavedMods.Split(',').ToList();
         public static MainWindow window;
@@ -79,6 +80,8 @@ namespace ModAssistant
                 ReinstallInstalledMods = ModAssistant.Properties.Settings.Default.ReinstallInstalled;
             options.CloseWindowOnFinish =
                 CloseWindowOnFinish = ModAssistant.Properties.Settings.Default.CloseWindowOnFinish;
+            options.ShowPendingMods =
+                ShowPendingMods = ModAssistant.Properties.Settings.Default.ShowPendingMods;
 
             await ArgumentHandler(e.Args);
             await Init();

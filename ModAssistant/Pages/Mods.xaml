@@ -90,7 +90,16 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn DisplayMemberBinding="{Binding ModVersion}" Header="{DynamicResource Mods:Header:Latest}" />
+                            <GridViewColumn x:Name="LatestColumn" Header="{DynamicResource Mods:Header:Latest}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Foreground="{Binding GetLatestVersionColor}"
+                                            Text="{Binding ModVersion}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            
                             <GridViewColumn x:Name="DescriptionColumn" Header="{DynamicResource Mods:Header:Description}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

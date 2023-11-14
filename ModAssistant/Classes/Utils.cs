@@ -32,7 +32,6 @@ namespace ModAssistant
             public const string BeatModsVersions = "https://versions.beatmods.com/versions.json";
             public const string BeatModsAlias = "https://alias.beatmods.com/aliases.json";
             public const string WeebCDNAPIURL = "https://pat.assistant.moe/api/v1.0/";
-            public const string BeatModsModsOptions = "mod?status=approved";
             public const string MD5Spacer = "                                 ";
             public static readonly char[] IllegalCharacters = new char[]
             {

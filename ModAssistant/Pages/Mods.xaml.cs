@@ -307,7 +307,16 @@ namespace ModAssistant.Pages
         {
             try
             {
-                var resp = await HttpClient.GetAsync(Utils.Constants.BeatModsAPIUrl + Utils.Constants.BeatModsModsOptions + "&gameVersion=" + MainWindow.GameVersion);
+                var queryStringParams = System.Web.HttpUtility.ParseQueryString(string.Empty);
+                queryStringParams.Add("gameVersion", MainWindow.GameVersion);
+                queryStringParams.Add("status", "approved");
+
+                if (App.ShowPendingMods)
+                {
+                    queryStringParams.Add("status", "pending");
+                }
+
+                var resp = await HttpClient.GetAsync($"{Utils.Constants.BeatModsAPIUrl}mod?{queryStringParams}");
                 var body = await resp.Content.ReadAsStringAsync();
                 ModsList = JsonSerializer.Deserialize<Mod[]>(body);
             }
@@ -673,6 +682,21 @@ namespace ModAssistant.Pages
                 {
                     if (!IsInstalled) return "Black";
                     return _installedVersion >= ModVersion ? "Green" : "Red";
+                }
+            }
+
+            public string GetLatestVersionColor
+            {
+                get
+                {
+                    switch (ModInfo.status)
+                    {
+                        case "pending":
+                            return "Yellow";
+
+                        default:
+                            return "Black";
+                    }
                 }
             }
 

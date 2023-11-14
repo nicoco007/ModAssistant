@@ -187,6 +187,7 @@
     <sys:String x:Key="Options:CurrentThemeRemoved">Le thème actuel a été supprimé, passage au thème par défaut...</sys:String>
     <sys:String x:Key="Options:ThemeFolderNotFound">Dossier Themes non trouvé ! Essayez d'exporter le modèle...</sys:String>
     <sys:String x:Key="Options:AppDataNotFound">Dossier AppData non trouvé ! Essayez de lancer votre jeu.</sys:String>
+    <sys:String x:Key="Options:ShowPending">Afficher les mods en attente d'approbation</sys:String>
 
     <!-- Loading Page -->
     <sys:String x:Key="Loading:Loading">Chargement des mods</sys:String>

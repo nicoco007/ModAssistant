@@ -25,6 +25,7 @@ namespace ModAssistant.Pages
         public bool CheckInstalledMods { get; set; }
         public bool SelectInstalledMods { get; set; }
         public bool ReinstallInstalledMods { get; set; }
+        public bool ShowPendingMods { get; set; }
         public bool ModelSaberProtocolHandlerEnabled { get; set; }
         public bool BeatSaverProtocolHandlerEnabled { get; set; }
         public bool PlaylistsProtocolHandlerEnabled { get; set; }
@@ -194,6 +195,24 @@ namespace ModAssistant.Pages
             App.ReinstallInstalledMods = false;
             ReinstallInstalledMods = false;
             Properties.Settings.Default.Save();
+        }
+
+        private void ShowPending_Checked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.ShowPendingMods = true;
+            App.ShowPendingMods = true;
+            ShowPendingMods = true;
+            Properties.Settings.Default.Save();
+            Mods.Instance.PendingChanges = true;
+        }
+
+        private void ShowPending_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.ShowPendingMods = false;
+            App.ShowPendingMods = false;
+            ShowPendingMods = false;
+            Properties.Settings.Default.Save();
+            Mods.Instance.PendingChanges = true;
         }
 
         private async void OpenLogsDirButton_Click(object sender, RoutedEventArgs e)

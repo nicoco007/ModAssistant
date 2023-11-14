@@ -175,6 +175,23 @@
             IsChecked="{Binding ReinstallInstalledMods, Mode=TwoWay}"
             Unchecked="ReinstallInstalled_Unchecked" />
 
+            <TextBlock
+            Grid.Row="7"
+            Margin="5"
+            HorizontalAlignment="Left"
+            FontSize="16"
+            FontWeight="Bold"
+            Text="{DynamicResource Options:ShowPending}" />
+            <CheckBox
+            Name="ShowPending"
+            Grid.Row="7"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Checked="ShowPending_Checked"
+            IsChecked="{Binding ShowPendingMods, Mode=TwoWay}"
+            Unchecked="ShowPending_Unchecked" />
+
             <Menu
             Grid.Row="8"
             Grid.Column="0"
