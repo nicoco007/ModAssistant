@@ -326,7 +326,7 @@ namespace ModAssistant.Pages
 
             foreach (Mod mod in ModsList.ToList())
             {
-                if (!RegisterDependencies(mod))
+                if (ModsList.Any(m => m.name == mod.name && SemVersion.Parse(m.version) > SemVersion.Parse(mod.version)) || !RegisterDependencies(mod))
                 {
                     ModsList.Remove(mod);
                 }
